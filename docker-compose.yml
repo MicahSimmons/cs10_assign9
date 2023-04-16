@@ -1,0 +1,12 @@
+
+x-build: &common
+  build: . 
+
+services:
+  debug:
+    << : *common
+    command: "/usr/bin/bash"
+  
+  build:
+    << : *common
+    command: "./doit"

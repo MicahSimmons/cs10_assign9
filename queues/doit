@@ -1,0 +1,38 @@
+#!/bin/bash
+
+set -e
+
+echo "===== Generating Makefiles ======"
+mkdir -p build
+pushd build
+CC=gcc CXX=g++ cmake ..
+popd
+
+echo "===== Building Objects ======"
+pushd build
+make clean
+make -j8
+popd
+
+
+#echo "===== Running Unit Tests ======"
+#pushd build/lib.ut
+##rm /tmp/ec_agent.log
+#./ut_ec_agent
+#popd
+
+#echo "===== Code Coverage Report ======"
+#mkdir -p build/coverage
+#pushd build/lib.src/CMakeFiles/ec_agentl.dir
+#lcov -q -t 'ut_ec_agent' -o ut_ec_agent.info -c -d .
+#genhtml -q -o ../../../coverage ut_ec_agent.info
+#popd
+
+#echo "===== Perform Static Analysis ====="
+#cppcheck -q --suppressions-list=cppcheck_suppress.txt --enable=all -I ./lib.include ./lib.src
+#cpplint --filter=-whitespace ./lib.src/*
+
+
+echo "===== Running Program ======"
+./build/src/queues_example -d ./data/datafile.txt
+
